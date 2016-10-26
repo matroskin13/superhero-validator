@@ -5,9 +5,9 @@
 import {validation, validators} from 'superhero-validator';
 
 const validator = validation({
-    email: validation.email(),
-    name: [validation.required(), validation.string(2, 15)],
-    age: validation.number(21, 100)
+    email: validators.email(),
+    name: [validators.required(), validators.string(2, 15)],
+    age: validators.number(21, 100)
 });
 
 const result = validator({
@@ -16,6 +16,6 @@ const result = validator({
     age: 45
 });
 
-console.log(result.success);  // true
+console.log(result.success); // true
 
 ```
