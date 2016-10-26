@@ -2,9 +2,18 @@
   "name": "superhero-validator",
   "version": "1.0.0",
   "description": "Package for validation your params",
+  "keywords": [
+    "validation",
+    "params",
+    "validator"
+  ],
   "main": "lib/index.js",
   "author": "Valentin Dubrovsky <spbclan@gmail.com>",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/matroskin13/superhero-validator.git"
+  },
+  "license": "MIT",
   "dependencies": {
     "lodash": "^4.16.4"
   },
