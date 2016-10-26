@@ -1,7 +1,7 @@
 {
-  "name": "superhero-params",
+  "name": "superhero-validator",
   "version": "1.0.0",
-  "description": "",
+  "description": "Package for validation your params",
   "main": "lib/index.js",
   "author": "Valentin Dubrovsky <spbclan@gmail.com>",
   "license": "ISC",
