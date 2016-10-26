@@ -1,21 +1,28 @@
-exports.getValidationError = (error, message, key) => {
+export function getValidationError(error, message, key) {
     return {
         success: false,
         error,
         key, 
         message
     };
-};
+}
 
-exports.getValidationSuccess = () => {
+export function getValidationSuccess() {
     return {
         success: true
     };
-};
+}
 
-exports.getParam = (key, value) => {
+export function getParam(key, value) {
     return {
         key,
         value
     };
-};
+}
+
+export function getValidator(validatorName, handler) {
+    return {
+        name: validatorName,
+        handler
+    };
+}

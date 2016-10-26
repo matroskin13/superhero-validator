@@ -1,7 +1,7 @@
-const validators = require('./validators');
+import {object} from './validators';
 
-module.exports = options => {
-    let validator = validators.object(options);
+export default function(options) {
+    let validator = object(options);
 
-    return params => validator({value: params});
+    return params => validator.handler({value: params});
 };

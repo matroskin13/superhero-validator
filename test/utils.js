@@ -1,6 +1,6 @@
-const test = require('ava');
+import test from 'ava';
 
-const utils = require('../src/utils');
+import {getParam, getValidationError, getValidationSuccess, getValidator} from '../src/utils';
 
 test('return error object', t => {
     const error = 'TEST_ERROR';
@@ -8,16 +8,24 @@ test('return error object', t => {
     const key = 'test';
     const expectedObject = {success: false, error, message, key};
 
-    t.deepEqual(utils.getValidationError(error, message, key), expectedObject);
+    t.deepEqual(getValidationError(error, message, key), expectedObject);
 });
 
 test('return success object', t => {
-    t.deepEqual(utils.getValidationSuccess(), {success: true});
+    t.deepEqual(getValidationSuccess(), {success: true});
 });
 
 test('return param object', t => {
     const paramValue = {name: 'Tester!'};
     const expectedKey = 'test';
     
-    t.deepEqual(utils.getParam(expectedKey, paramValue), {key: expectedKey, value: paramValue});
+    t.deepEqual(getParam(expectedKey, paramValue), {key: expectedKey, value: paramValue});
+});
+
+test('return validator object', t => {
+    const validatorName = 'test';
+    const handler = () => true;
+    const expectedObject = {name: validatorName, handler};
+    
+    t.deepEqual(getValidator(validatorName, handler), expectedObject);
 });

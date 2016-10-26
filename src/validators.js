@@ -1,89 +1,107 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
-const utils = require('./utils');
-const errors = require('./errors');
+import {getValidationError, getValidationSuccess, getParam, getValidator} from './utils';
+import * as errors from './errors';
 
-exports.object = (propertyList) => param => {
-    if (!_.isObject(param.value)) {
-        return utils.getValidationError(errors.PARAM_IS_NOT_OBJECT, `param ${param.key} is not object`, param.key);
-    }
-    
-    for (let i in propertyList) {
-        if (propertyList.hasOwnProperty(i)) {
-            let paramName = param.key ? `${param.key}.${i}` : i;
-            let property = propertyList[i];
-            let validationParam = utils.getParam(`${paramName}`, param.value[i]);
-            let result;
-            
-            if (_.isArray(property)) {
-                for (let propertyItem of property) {
-                    result = propertyItem(validationParam);
+function getRequiredValidator(validators = []) {
+    return _.find(validators, {name: 'required'});
+}
 
-                    if (!result.success) {
-                        break;
+export function object(propertyList) {
+    return getValidator('object', param => {
+        if (!_.isObject(param.value)) {
+            return getValidationError(errors.PARAM_IS_NOT_OBJECT, `param ${param.key} is not object`, param.key);
+        }
+
+        for (let i in propertyList) {
+            if (propertyList.hasOwnProperty(i)) {
+                let paramName = param.key ? `${param.key}.${i}` : i;
+                let property = propertyList[i];
+                let validationParam = getParam(`${paramName}`, param.value[i]);
+                let result;
+
+                if (_.isArray(property)) {
+                    for (let propertyItem of property) {
+                        result = propertyItem.handler(validationParam, property);
+
+                        if (!result.success) {
+                            break;
+                        }
                     }
+                } else {
+                    result = property.handler(validationParam);
                 }
-            } else {
-                result = property(validationParam);
-            }
-            
-            if (!result.success) {
-                return result;
+
+                if (!result.success) {
+                    return result;
+                }
             }
         }
-    }
-    
-    return utils.getValidationSuccess();
-};
 
-exports.required = () => param => {
-    let value = Boolean(param.value);
+        return getValidationSuccess();
+    });
+}
 
-    if (value) {
-        return utils.getValidationSuccess();
-    } else {
-        return utils.getValidationError(errors.PARAM_IS_REQUIRED, `param ${param.key} is required`, param.key);
-    }
-};
+export function required() {
+    return getValidator('required', param => {
+        let value = Boolean(param.value);
 
-exports.string = (min, max) => param => {
-    let value = String(param.value);
-    
-    if (max && value.length > max) {
-        return utils.getValidationError(errors.PARAM_IS_ABOVE, `param length is above than ${max}`, param.key);
-    }
-    
-    if (min && value.length < min) {
-        return utils.getValidationError(errors.PARAM_IS_BELOW, `param length is below than ${min}`, param.key);
-    }
-    
-    return utils.getValidationSuccess();
-};
+        if (value) {
+            return getValidationSuccess();
+        } else {
+            return getValidationError(errors.PARAM_IS_REQUIRED, `param ${param.key} is required`, param.key);
+        }
+    });
+}
 
-exports.number = (min, max) => param => {
-    let value = Number(param.value);
+export function string(min, max) {
+    return getValidator('string', param => {
+        let value = String(param.value);
 
-    if (!(typeof value === 'number' && !Number.isNaN(value))) {
-        return utils.getValidationError(errors.PARAM_IS_NOT_NUMBER, `param ${param.key} is not number`, param.key);
-    }
+        if (max && value.length > max) {
+            return getValidationError(errors.PARAM_IS_ABOVE, `param length is above than ${max}`, param.key);
+        }
 
-    if (max && value > max) {
-        return utils.getValidationError(errors.PARAM_IS_ABOVE, `param ${param.key} is above than ${max}`, param.key);
-    }
+        if (min && value.length < min) {
+            return getValidationError(errors.PARAM_IS_BELOW, `param length is below than ${min}`, param.key);
+        }
 
-    if (min && value < min) {
-        return utils.getValidationError(errors.PARAM_IS_BELOW, `param ${param.key} is below than ${min}`, param.key)
-    }
+        return getValidationSuccess();
+    });
+}
 
-    return utils.getValidationSuccess();
-};
+export function number(min, max) {
+    return getValidator('number', (param, validators) => {
+        let value = Number(param.value);
 
-exports.email = () => param => {
-    let reg = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+        if (!(typeof value === 'number' && !Number.isNaN(value))) {
+            if (getRequiredValidator(validators)) {
+                return getValidationSuccess();
+            }
+            
+            return getValidationError(errors.PARAM_IS_NOT_NUMBER, `param ${param.key} is not number`, param.key);
+        }
 
-    if (reg.test(param.value)) {
-        return utils.getValidationSuccess();
-    } else {
-        return utils.getValidationError(errors.PARAM_IS_NOT_EMAIL, `param ${param.key} is not email`, param.key);
-    }
-};
+        if (max && value > max) {
+            return getValidationError(errors.PARAM_IS_ABOVE, `param ${param.key} is above than ${max}`, param.key);
+        }
+
+        if (min && value < min) {
+            return getValidationError(errors.PARAM_IS_BELOW, `param ${param.key} is below than ${min}`, param.key)
+        }
+
+        return getValidationSuccess();
+    });
+}
+
+export function email() {
+    return getValidator('email', param => {
+        let reg = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+
+        if (reg.test(param.value)) {
+            return getValidationSuccess();
+        } else {
+            return getValidationError(errors.PARAM_IS_NOT_EMAIL, `param ${param.key} is not email`, param.key);
+        }
+    });
+}
