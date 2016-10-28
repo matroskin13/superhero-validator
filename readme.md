@@ -20,4 +20,4 @@ console.log(result.success); // true
 
 ```
 
-more validators in [api page](docs/more_words.md)
+more validators in [api page](api.md)
