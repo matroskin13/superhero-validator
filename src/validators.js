@@ -180,6 +180,18 @@ export function empty() {
     }, false);
 }
 
+/**
+ * @returns {ValidatorObject}
+ *
+ * @example
+ * let validator = validation({
+ *      email: validator.oneOf([validator.number(), validator.email()])
+ * });
+ *
+ * validator({
+ *      email: 'test@test.com'
+ * }); // {success: true}
+ */
 export function oneOf(validators) {
     return getValidator('oneOf', (param, _validators) => {
         for (let validator of validators) {

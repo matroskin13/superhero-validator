@@ -24,6 +24,7 @@
     * [.number(min, max)](#module_src/validators.number) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
     * [.email()](#module_src/validators.email) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
     * [.empty()](#module_src/validators.empty) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+    * [.oneOf()](#module_src/validators.oneOf) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
 
 <a name="module_src/validators.object"></a>
 
@@ -132,6 +133,20 @@ validator({
 
 validator({
      email: ''
+}); // {success: true}
+```
+<a name="module_src/validators.oneOf"></a>
+
+### src/validators.oneOf() ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+**Kind**: static method of <code>[src/validators](#module_src/validators)</code>  
+**Example**  
+```js
+let validator = validation({
+     email: validator.oneOf([validator.number(), validator.email()])
+});
+
+validator({
+     email: 'test@test.com'
 }); // {success: true}
 ```
 <a name="ValidationResult"></a>
