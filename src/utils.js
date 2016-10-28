@@ -44,3 +44,14 @@ export function getValidator(validatorName, handler, checkRequired = true) {
 export function isEmptyValue(value) {
     return value === '' || value === null || value === undefined;
 }
+
+/**
+ * @typedef {Object} ValidationResult
+ * @property {Boolean} success - status of validation
+ */
+
+/**
+ * @typedef {Object} ValidatorObject
+ * @property {String} name - unique name of validator
+ * @property {Function} handler - function returned ValidationResult
+ */
