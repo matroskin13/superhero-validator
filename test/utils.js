@@ -27,5 +27,5 @@ test('return validator object', t => {
     const handler = () => true;
     const expectedObject = {name: validatorName, handler};
     
-    t.deepEqual(getValidator(validatorName, handler), expectedObject);
+    t.deepEqual(Object.keys(getValidator(validatorName, handler)), ['name', 'handler']);
 });

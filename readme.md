@@ -5,9 +5,9 @@
 import {validation, validators} from 'superhero-validator';
 
 const validator = validation({
-    email: validators.email(),
-    name: [validators.required(), validators.string(2, 15)],
-    age: validators.number(21, 100)
+    email: validators.email(), // required param
+    name: [validators.empty(), validators.string(3, 15)], // param can be is empty, or string (length > 3 && < 16)
+    age: validators.number(21, 100) // required param, and param type is number (age > 21 && age < 101)
 });
 
 const result = validator({
@@ -19,3 +19,5 @@ const result = validator({
 console.log(result.success); // true
 
 ```
+
+more validators in [api page](api.md)
