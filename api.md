@@ -30,7 +30,7 @@
         * [.oneOf(validators)](#module_src/validators.oneOf) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
         * [.arrayOf(validator)](#module_src/validators.arrayOf) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
         * [.regExp(reg)](#module_src/validators.regExp) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
-        * [.custom(customHandler, [customValidatorName])](#module_src/validators.custom) ⇒ <code>Object</code> &#124; <code>\*</code>
+        * [.custom(customHandler, [customValidatorName])](#module_src/validators.custom) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
     * _inner_
         * [~customHandler](#module_src/validators..customHandler) ⇒ <code>Boolean</code>
 
@@ -206,7 +206,7 @@ validator({
 ```
 <a name="module_src/validators.custom"></a>
 
-### src/validators.custom(customHandler, [customValidatorName]) ⇒ <code>Object</code> &#124; <code>\*</code>
+### src/validators.custom(customHandler, [customValidatorName]) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
 **Kind**: static method of <code>[src/validators](#module_src/validators)</code>  
 
 | Param | Type |
@@ -214,6 +214,16 @@ validator({
 | customHandler | <code>customHandler</code> | 
 | [customValidatorName] | <code>String</code> | 
 
+**Example**  
+```js
+let validator = validation({
+     param123: validators.custom(param => param.value === 123)
+});
+
+validator({
+     param123: 123
+}); // {success: true}
+```
 <a name="module_src/validators..customHandler"></a>
 
 ### src/validators~customHandler ⇒ <code>Boolean</code>
