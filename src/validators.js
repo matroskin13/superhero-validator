@@ -64,8 +64,8 @@ export function object(propertyList) {
 
 /**
  * validator of string type
- * @param {Number} min - minimum length of string
- * @param {Number} max - maximum length of string
+ * @param {Number} [min] - minimum length of string
+ * @param {Number} [max] - maximum length of string
  * @returns {ValidatorObject}
  *
  * @example
@@ -95,8 +95,8 @@ export function string(min, max) {
 
 /**
  * validator of number type
- * @param {Number} min - minimum of number
- * @param {Number} max - maximum of number
+ * @param {Number} [min] - minimum of number
+ * @param {Number} [max] - maximum of number
  * @returns {ValidatorObject}
  *
  * @example
