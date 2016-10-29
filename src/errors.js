@@ -8,3 +8,4 @@ export const PARAM_IS_ABOVE = 'PARAM_IS_ABOVE';
 export const PARAM_IS_BELOW = 'PARAM_IS_BELOW';
 export const PARAM_IS_NOT_ONE_OF = 'PARAM_IS_NOT_ONE_OF';
 export const PARAM_IS_NOT_EMPTY = 'PARAM_IS_NOT_EMPTY';
+export const PARAM_IS_NOT_ARRAY = 'PARAM_IS_NOT_ARRAY';

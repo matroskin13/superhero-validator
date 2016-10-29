@@ -24,7 +24,8 @@
     * [.number(min, max)](#module_src/validators.number) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
     * [.email()](#module_src/validators.email) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
     * [.empty()](#module_src/validators.empty) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
-    * [.oneOf()](#module_src/validators.oneOf) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+    * [.oneOf(validators)](#module_src/validators.oneOf) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+    * [.arrayOf(validator)](#module_src/validators.arrayOf) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
 
 <a name="module_src/validators.object"></a>
 
@@ -137,8 +138,13 @@ validator({
 ```
 <a name="module_src/validators.oneOf"></a>
 
-### src/validators.oneOf() ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+### src/validators.oneOf(validators) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
 **Kind**: static method of <code>[src/validators](#module_src/validators)</code>  
+
+| Param | Type |
+| --- | --- |
+| validators | <code>[Array.&lt;ValidatorObject&gt;](#ValidatorObject)</code> | 
+
 **Example**  
 ```js
 let validator = validation({
@@ -147,6 +153,27 @@ let validator = validation({
 
 validator({
      email: 'test@test.com'
+}); // {success: true}
+```
+<a name="module_src/validators.arrayOf"></a>
+
+### src/validators.arrayOf(validator) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+check items of array
+
+**Kind**: static method of <code>[src/validators](#module_src/validators)</code>  
+
+| Param | Type |
+| --- | --- |
+| validator | <code>[ValidatorObject](#ValidatorObject)</code> | 
+
+**Example**  
+```js
+let validator = validation({
+     digits: validator.arrayOf(validator.number())
+});
+
+validator({
+     digits: [1, 2, 3]
 }); // {success: true}
 ```
 <a name="ValidationResult"></a>

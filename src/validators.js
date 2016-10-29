@@ -181,6 +181,7 @@ export function empty() {
 }
 
 /**
+ * @param {ValidatorObject[]} validators
  * @returns {ValidatorObject}
  *
  * @example
@@ -200,6 +201,40 @@ export function oneOf(validators) {
             }
         }
 
-        return getValidationError(`oneOf failed for ${param.key}`, errors.PARAM_IS_NOT_ONE_OF, param.key);
+        return getValidationError(errors.PARAM_IS_NOT_ONE_OF, `oneOf failed for ${param.key}`, param.key);
+    }, false);
+}
+
+/**
+ * check items of array
+ * @param {ValidatorObject} validator
+ * @returns {ValidatorObject}
+ *
+ * @example
+ * let validator = validation({
+ *      digits: validator.arrayOf(validator.number())
+ * });
+ *
+ * validator({
+ *      digits: [1, 2, 3]
+ * }); // {success: true}
+ */
+export function arrayOf(validator) {
+    return getValidator('arrayOf', param => {
+        if (!Array.isArray(param.value)) {
+            return getValidationError(errors.PARAM_IS_NOT_ARRAY, `param ${param.key} is not array`, param.key);
+        }
+
+        for (let i = 0; i < param.value.length; i++) {
+            let _param = param.value[i];
+            let validationParam = getParam(`${_param.key}[${i}]`, _param);
+            let result = validator.handler(validationParam);
+            
+            if (!result.success) {
+                return result;
+            }
+        }
+
+        return getValidationSuccess();
     }, false);
 }
