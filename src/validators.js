@@ -64,8 +64,8 @@ export function object(propertyList) {
 
 /**
  * validator of string type
- * @param {Number} min - minimum length of string
- * @param {Number} max - maximum length of string
+ * @param {Number} [min] - minimum length of string
+ * @param {Number} [max] - maximum length of string
  * @returns {ValidatorObject}
  *
  * @example
@@ -95,8 +95,8 @@ export function string(min, max) {
 
 /**
  * validator of number type
- * @param {Number} min - minimum of number
- * @param {Number} max - maximum of number
+ * @param {Number} [min] - minimum of number
+ * @param {Number} [max] - maximum of number
  * @returns {ValidatorObject}
  *
  * @example
@@ -181,6 +181,7 @@ export function empty() {
 }
 
 /**
+ * @param {ValidatorObject[]} validators
  * @returns {ValidatorObject}
  *
  * @example
@@ -200,6 +201,97 @@ export function oneOf(validators) {
             }
         }
 
-        return getValidationError(`oneOf failed for ${param.key}`, errors.PARAM_IS_NOT_ONE_OF, param.key);
+        return getValidationError(errors.PARAM_IS_NOT_ONE_OF, `oneOf failed for ${param.key}`, param.key);
     }, false);
 }
+
+/**
+ * check items of array
+ * @param {ValidatorObject} validator
+ * @returns {ValidatorObject}
+ *
+ * @example
+ * let validator = validation({
+ *      digits: validator.arrayOf(validator.number())
+ * });
+ *
+ * validator({
+ *      digits: [1, 2, 3]
+ * }); // {success: true}
+ */
+export function arrayOf(validator) {
+    return getValidator('arrayOf', param => {
+        if (!Array.isArray(param.value)) {
+            return getValidationError(errors.PARAM_IS_NOT_ARRAY, `param ${param.key} is not array`, param.key);
+        }
+
+        for (let i = 0; i < param.value.length; i++) {
+            let _param = param.value[i];
+            let validationParam = getParam(`${_param.key}[${i}]`, _param);
+            let result = validator.handler(validationParam);
+            
+            if (!result.success) {
+                return result;
+            }
+        }
+
+        return getValidationSuccess();
+    }, false);
+}
+
+/**
+ * check items of array
+ * @param {RegExp} reg
+ * @returns {ValidatorObject}
+ *
+ * @example
+ * let validator = validation({
+ *      ip: validator.regExp(/^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/)
+ * });
+ *
+ * validator({
+ *      ip: '127.0.0.1'
+ * }); // {success: true}
+ */
+export function regExp(reg) {
+    return getValidator('regExp', param => {
+        if (!reg.test(param.value)) {
+            return getValidationError(errors.PARAM_IS_INVALID, `param ${param.key} is invalid`, param.key);
+        } else {
+            return getValidationSuccess();
+        }
+    });
+}
+
+/**
+ *
+ * @param {customHandler} customHandler
+ * @param {String} [customValidatorName]
+ * @returns {ValidatorObject}
+ *
+ * @example
+ * let validator = validation({
+ *      param123: validators.custom(param => param.value === 123)
+ * });
+ *
+ * validator({
+ *      param123: 123
+ * }); // {success: true}
+ */
+export function custom(customHandler, customValidatorName = '') {
+    return getValidator(`custom-${customValidatorName}`, param => {
+        let result = customHandler(param);
+
+        if (result) {
+            return getValidationSuccess();
+        } else {
+            return getValidationError(errors.PARAM_IS_INVALID, `param ${param.key} is invalid (custom ${customValidatorName})`, param.key);
+        }
+    });
+}
+
+/**
+ * @callback customHandler
+ * @param {ValidationParam} customHandler
+ * @returns {Boolean}
+ */

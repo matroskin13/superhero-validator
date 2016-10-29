@@ -55,3 +55,9 @@ export function isEmptyValue(value) {
  * @property {String} name - unique name of validator
  * @property {Function} handler - function returned ValidationResult
  */
+
+/**
+ * @typedef {Object} ValidationParam
+ * @property {String} key
+ * @property value
+ */

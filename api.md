@@ -12,6 +12,8 @@
 <dd></dd>
 <dt><a href="#ValidatorObject">ValidatorObject</a> : <code>Object</code></dt>
 <dd></dd>
+<dt><a href="#ValidationParam">ValidationParam</a> : <code>Object</code></dt>
+<dd></dd>
 </dl>
 
 <a name="module_src/validators"></a>
@@ -19,12 +21,18 @@
 ## src/validators
 
 * [src/validators](#module_src/validators)
-    * [.object(propertyList)](#module_src/validators.object) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
-    * [.string(min, max)](#module_src/validators.string) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
-    * [.number(min, max)](#module_src/validators.number) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
-    * [.email()](#module_src/validators.email) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
-    * [.empty()](#module_src/validators.empty) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
-    * [.oneOf()](#module_src/validators.oneOf) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+    * _static_
+        * [.object(propertyList)](#module_src/validators.object) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+        * [.string([min], [max])](#module_src/validators.string) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+        * [.number([min], [max])](#module_src/validators.number) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+        * [.email()](#module_src/validators.email) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+        * [.empty()](#module_src/validators.empty) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+        * [.oneOf(validators)](#module_src/validators.oneOf) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+        * [.arrayOf(validator)](#module_src/validators.arrayOf) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+        * [.regExp(reg)](#module_src/validators.regExp) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+        * [.custom(customHandler, [customValidatorName])](#module_src/validators.custom) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+    * _inner_
+        * [~customHandler](#module_src/validators..customHandler) ⇒ <code>Boolean</code>
 
 <a name="module_src/validators.object"></a>
 
@@ -57,15 +65,15 @@ validator({
 ```
 <a name="module_src/validators.string"></a>
 
-### src/validators.string(min, max) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+### src/validators.string([min], [max]) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
 validator of string type
 
 **Kind**: static method of <code>[src/validators](#module_src/validators)</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| min | <code>Number</code> | minimum length of string |
-| max | <code>Number</code> | maximum length of string |
+| [min] | <code>Number</code> | minimum length of string |
+| [max] | <code>Number</code> | maximum length of string |
 
 **Example**  
 ```js
@@ -79,15 +87,15 @@ validator({
 ```
 <a name="module_src/validators.number"></a>
 
-### src/validators.number(min, max) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+### src/validators.number([min], [max]) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
 validator of number type
 
 **Kind**: static method of <code>[src/validators](#module_src/validators)</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| min | <code>Number</code> | minimum of number |
-| max | <code>Number</code> | maximum of number |
+| [min] | <code>Number</code> | minimum of number |
+| [max] | <code>Number</code> | maximum of number |
 
 **Example**  
 ```js
@@ -137,8 +145,13 @@ validator({
 ```
 <a name="module_src/validators.oneOf"></a>
 
-### src/validators.oneOf() ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+### src/validators.oneOf(validators) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
 **Kind**: static method of <code>[src/validators](#module_src/validators)</code>  
+
+| Param | Type |
+| --- | --- |
+| validators | <code>[Array.&lt;ValidatorObject&gt;](#ValidatorObject)</code> | 
+
 **Example**  
 ```js
 let validator = validation({
@@ -149,6 +162,77 @@ validator({
      email: 'test@test.com'
 }); // {success: true}
 ```
+<a name="module_src/validators.arrayOf"></a>
+
+### src/validators.arrayOf(validator) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+check items of array
+
+**Kind**: static method of <code>[src/validators](#module_src/validators)</code>  
+
+| Param | Type |
+| --- | --- |
+| validator | <code>[ValidatorObject](#ValidatorObject)</code> | 
+
+**Example**  
+```js
+let validator = validation({
+     digits: validator.arrayOf(validator.number())
+});
+
+validator({
+     digits: [1, 2, 3]
+}); // {success: true}
+```
+<a name="module_src/validators.regExp"></a>
+
+### src/validators.regExp(reg) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+check items of array
+
+**Kind**: static method of <code>[src/validators](#module_src/validators)</code>  
+
+| Param | Type |
+| --- | --- |
+| reg | <code>RegExp</code> | 
+
+**Example**  
+```js
+let validator = validation({
+     ip: validator.regExp(/^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/)
+});
+
+validator({
+     ip: '127.0.0.1'
+}); // {success: true}
+```
+<a name="module_src/validators.custom"></a>
+
+### src/validators.custom(customHandler, [customValidatorName]) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+**Kind**: static method of <code>[src/validators](#module_src/validators)</code>  
+
+| Param | Type |
+| --- | --- |
+| customHandler | <code>customHandler</code> | 
+| [customValidatorName] | <code>String</code> | 
+
+**Example**  
+```js
+let validator = validation({
+     param123: validators.custom(param => param.value === 123)
+});
+
+validator({
+     param123: 123
+}); // {success: true}
+```
+<a name="module_src/validators..customHandler"></a>
+
+### src/validators~customHandler ⇒ <code>Boolean</code>
+**Kind**: inner typedef of <code>[src/validators](#module_src/validators)</code>  
+
+| Param | Type |
+| --- | --- |
+| customHandler | <code>[ValidationParam](#ValidationParam)</code> | 
+
 <a name="ValidationResult"></a>
 
 ## ValidationResult : <code>Object</code>
@@ -169,4 +253,15 @@ validator({
 | --- | --- | --- |
 | name | <code>String</code> | unique name of validator |
 | handler | <code>function</code> | function returned ValidationResult |
+
+<a name="ValidationParam"></a>
+
+## ValidationParam : <code>Object</code>
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type |
+| --- | --- |
+| key | <code>String</code> | 
+| value |  | 
 
