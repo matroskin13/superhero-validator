@@ -262,3 +262,27 @@ export function regExp(reg) {
         }
     });
 }
+
+/**
+ *
+ * @param {customHandler} customHandler
+ * @param {String} [customValidatorName]
+ * @returns {{name, handler}|*}
+ */
+export function custom(customHandler, customValidatorName = '') {
+    return getValidator(`custom-${customValidatorName}`, param => {
+        let result = customHandler(param);
+
+        if (result) {
+            return getValidationSuccess();
+        } else {
+            return getValidationError(errors.PARAM_IS_INVALID, `param ${param.key} is invalid (custom ${customValidatorName})`, param.key);
+        }
+    });
+}
+
+/**
+ * @callback customHandler
+ * @param {ValidationParam} customHandler
+ * @returns {Boolean}
+ */
