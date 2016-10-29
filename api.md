@@ -26,6 +26,7 @@
     * [.empty()](#module_src/validators.empty) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
     * [.oneOf(validators)](#module_src/validators.oneOf) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
     * [.arrayOf(validator)](#module_src/validators.arrayOf) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+    * [.regExp(reg)](#module_src/validators.regExp) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
 
 <a name="module_src/validators.object"></a>
 
@@ -174,6 +175,27 @@ let validator = validation({
 
 validator({
      digits: [1, 2, 3]
+}); // {success: true}
+```
+<a name="module_src/validators.regExp"></a>
+
+### src/validators.regExp(reg) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+check items of array
+
+**Kind**: static method of <code>[src/validators](#module_src/validators)</code>  
+
+| Param | Type |
+| --- | --- |
+| reg | <code>RegExp</code> | 
+
+**Example**  
+```js
+let validator = validation({
+     ip: validator.regExp(/^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/)
+});
+
+validator({
+     ip: '127.0.0.1'
 }); // {success: true}
 ```
 <a name="ValidationResult"></a>

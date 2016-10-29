@@ -238,3 +238,27 @@ export function arrayOf(validator) {
         return getValidationSuccess();
     }, false);
 }
+
+/**
+ * check items of array
+ * @param {RegExp} reg
+ * @returns {ValidatorObject}
+ *
+ * @example
+ * let validator = validation({
+ *      ip: validator.regExp(/^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/)
+ * });
+ *
+ * validator({
+ *      ip: '127.0.0.1'
+ * }); // {success: true}
+ */
+export function regExp(reg) {
+    return getValidator('regExp', param => {
+        if (!reg.test(param.value)) {
+            return getValidationError(errors.PARAM_IS_INVALID, `param ${param.key} is invalid`, param.key);
+        } else {
+            return getValidationSuccess();
+        }
+    });
+}
