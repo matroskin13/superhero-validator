@@ -267,7 +267,16 @@ export function regExp(reg) {
  *
  * @param {customHandler} customHandler
  * @param {String} [customValidatorName]
- * @returns {{name, handler}|*}
+ * @returns {ValidatorObject}
+ *
+ * @example
+ * let validator = validation({
+ *      param123: validators.custom(param => param.value === 123)
+ * });
+ *
+ * validator({
+ *      param123: 123
+ * }); // {success: true}
  */
 export function custom(customHandler, customValidatorName = '') {
     return getValidator(`custom-${customValidatorName}`, param => {
