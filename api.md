@@ -23,8 +23,8 @@
 * [src/validators](#module_src/validators)
     * _static_
         * [.object(propertyList)](#module_src/validators.object) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
-        * [.string(min, max)](#module_src/validators.string) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
-        * [.number(min, max)](#module_src/validators.number) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+        * [.string([min], [max])](#module_src/validators.string) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+        * [.number([min], [max])](#module_src/validators.number) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
         * [.email()](#module_src/validators.email) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
         * [.empty()](#module_src/validators.empty) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
         * [.oneOf(validators)](#module_src/validators.oneOf) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
@@ -65,15 +65,15 @@ validator({
 ```
 <a name="module_src/validators.string"></a>
 
-### src/validators.string(min, max) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+### src/validators.string([min], [max]) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
 validator of string type
 
 **Kind**: static method of <code>[src/validators](#module_src/validators)</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| min | <code>Number</code> | minimum length of string |
-| max | <code>Number</code> | maximum length of string |
+| [min] | <code>Number</code> | minimum length of string |
+| [max] | <code>Number</code> | maximum length of string |
 
 **Example**  
 ```js
@@ -87,15 +87,15 @@ validator({
 ```
 <a name="module_src/validators.number"></a>
 
-### src/validators.number(min, max) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+### src/validators.number([min], [max]) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
 validator of number type
 
 **Kind**: static method of <code>[src/validators](#module_src/validators)</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| min | <code>Number</code> | minimum of number |
-| max | <code>Number</code> | maximum of number |
+| [min] | <code>Number</code> | minimum of number |
+| [max] | <code>Number</code> | maximum of number |
 
 **Example**  
 ```js
