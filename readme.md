@@ -1,4 +1,11 @@
+## Install
+
+```console
+$ npm install --save superhero-validator
+```
+
 ## Usage
+
 
 ```js
 
