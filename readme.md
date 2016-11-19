@@ -35,7 +35,8 @@ const result = validator({
         {id: 2, title: 'second task'}
     ],
     param123: 123,
-    param
+    param311or999: 311,
+    count: 20
 });
 
 console.log(result.success); // true
