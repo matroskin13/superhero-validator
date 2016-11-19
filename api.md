@@ -32,6 +32,7 @@
         * [.regExp(reg)](#module_src/validators.regExp) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
         * [.custom(customHandler, [customValidatorName])](#module_src/validators.custom) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
         * [.is(values)](#module_src/validators.is) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+        * [.not(values)](#module_src/validators.not) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
     * _inner_
         * [~customHandler](#module_src/validators..customHandler) ⇒ <code>Boolean</code>
 
@@ -240,6 +241,27 @@ Param must be equal one of values
 ```js
 let validator = validation({
      age: validator.is(21, 22)
+});
+
+validator({
+     age: 21
+}); // {success: true}
+```
+<a name="module_src/validators.not"></a>
+
+### src/validators.not(values) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+Param is not equal one of values
+
+**Kind**: static method of <code>[src/validators](#module_src/validators)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| values | <code>Array.&lt;String&gt;</code> &#124; <code>Array.&lt;Number&gt;</code> &#124; <code>Array.&lt;Boolean&gt;</code> | param is primitive |
+
+**Example**  
+```js
+let validator = validation({
+     age: validator.not(20, 30)
 });
 
 validator({
