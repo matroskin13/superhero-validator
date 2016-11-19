@@ -20,7 +20,8 @@ const validator = validation({
         id: validators.number(),
         title: validators.string()
     })),
-    param123: validators.custom(param => param.value === 123)
+    param123: validators.custom(param => param.value === 123),
+    param311or999: validators.custom([311, 999])
 });
 
 const result = validator({
