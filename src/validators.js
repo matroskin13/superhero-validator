@@ -121,7 +121,7 @@ export function number(min, max) {
         }
 
         if (min && value < min) {
-            return getValidationError(errors.PARAM_IS_BELOW, `param ${param.key} is below than ${min}`, param.key)
+            return getValidationError(errors.PARAM_IS_BELOW, `param ${param.key} is below than ${min}`, param.key);
         }
 
         return getValidationSuccess();
