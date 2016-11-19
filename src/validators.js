@@ -334,7 +334,7 @@ export function is(values) {
  *
  * validator({
  *      age: 21
- * }); // {success: false}
+ * }); // {success: true}
  */
 export function not(values) {
     return getValidator('not', param => {
