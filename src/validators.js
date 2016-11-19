@@ -298,7 +298,7 @@ export function custom(customHandler, customValidatorName = '') {
 
 /**
  * Param must be equal one of values
- * @param {...String|...Number|...Boolean} values - param is primitive
+ * @param {String[]|Number[]|Boolean[]} values - param is primitive
  * @returns {ValidatorObject}
  *
  * @example
@@ -310,7 +310,7 @@ export function custom(customHandler, customValidatorName = '') {
  *      age: 21
  * }); // {success: true}
  */
-export function is(...values) {
+export function is(values) {
     return getValidator('is', param => {
         for (let i = 0; i < values.length; i++) {
             if (values[i] === param.value) {
