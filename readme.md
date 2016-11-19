@@ -20,7 +20,9 @@ const validator = validation({
         id: validators.number(),
         title: validators.string()
     })),
-    param123: validators.custom(param => param.value === 123)
+    param123: validators.custom(param => param.value === 123),
+    param311or999: validators.is([311, 999]),
+    count: validators.not([30])
 });
 
 const result = validator({
@@ -32,7 +34,9 @@ const result = validator({
         {id: 1, title: 'first task'},
         {id: 2, title: 'second task'}
     ],
-    param123: 123
+    param123: 123,
+    param311or999: 311,
+    count: 20
 });
 
 console.log(result.success); // true

@@ -121,7 +121,7 @@ export function number(min, max) {
         }
 
         if (min && value < min) {
-            return getValidationError(errors.PARAM_IS_BELOW, `param ${param.key} is below than ${min}`, param.key)
+            return getValidationError(errors.PARAM_IS_BELOW, `param ${param.key} is below than ${min}`, param.key);
         }
 
         return getValidationSuccess();
@@ -295,3 +295,59 @@ export function custom(customHandler, customValidatorName = '') {
  * @param {ValidationParam} customHandler
  * @returns {Boolean}
  */
+
+/**
+ * Param must be equal one of values
+ * @param {String[]|Number[]|Boolean[]} values - param is primitive
+ * @returns {ValidatorObject}
+ *
+ * @example
+ * let validator = validation({
+ *      age: validator.is(21, 22)
+ * });
+ *
+ * validator({
+ *      age: 21
+ * }); // {success: true}
+ */
+export function is(values) {
+    return getValidator('is', param => {
+        for (let i = 0; i < values.length; i++) {
+            if (values[i] === param.value) {
+                return getValidationSuccess();
+            }
+        }
+
+        return getValidationError(errors.PARAM_IS_NOT_EQUAL, `param ${param.key} is not equal by ${values.toString()}`, param.key);
+    });
+}
+
+/**
+ * Param is not equal one of values
+ * @param {String[]|Number[]|Boolean[]} values - param is primitive
+ * @returns {ValidatorObject}
+ *
+ * @example
+ * let validator = validation({
+ *      age: validator.not(20, 30)
+ * });
+ *
+ * validator({
+ *      age: 21
+ * }); // {success: true}
+ */
+export function not(values) {
+    return getValidator('not', param => {
+        for (let i = 0; i < values.length; i++) {
+            if (values[i] === param.value) {
+                return getValidationError(
+                    errors.PARAM_IS_INVALID,
+                    `param ${param.key} is equal by ${values.toString()}`,
+                    param.key
+                );
+            }
+        }
+
+        return getValidationSuccess();
+    });
+}
