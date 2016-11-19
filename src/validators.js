@@ -295,3 +295,29 @@ export function custom(customHandler, customValidatorName = '') {
  * @param {ValidationParam} customHandler
  * @returns {Boolean}
  */
+
+/**
+ * Param must be equal one of values
+ * @param {String[]|Number[]|Boolean[]} values - param is primitive
+ * @returns {ValidatorObject}
+ *
+ * @example
+ * let validator = validation({
+ *      age: validator.is(21, 22)
+ * });
+ *
+ * validator({
+ *      age: 21
+ * }); // {success: true}
+ */
+export function is(values) {
+    return getValidator('is', param => {
+        for (let i = 0; i < values.length; i++) {
+            if (values[i] === param.value) {
+                return getValidationSuccess();
+            }
+        }
+
+        return getValidationError(errors.PARAM_IS_NOT_EQUAL, `param ${param.key} is not equal by ${values.toString()}`, param.key);
+    });
+}
