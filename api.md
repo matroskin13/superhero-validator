@@ -1,6 +1,8 @@
 ## Modules
 
 <dl>
+<dt><a href="#module_src/use">src/use</a></dt>
+<dd></dd>
 <dt><a href="#module_src/validators">src/validators</a></dt>
 <dd></dd>
 </dl>
@@ -15,6 +17,19 @@
 <dt><a href="#ValidationParam">ValidationParam</a> : <code>Object</code></dt>
 <dd></dd>
 </dl>
+
+<a name="module_src/use"></a>
+
+## src/use
+<a name="exp_module_src/use--module.exports"></a>
+
+### module.exports(validator, value) ⇒ <code>Boolean</code> ⏏
+**Kind**: Exported function  
+
+| Param | Type |
+| --- | --- |
+| validator | <code>[ValidatorObject](#ValidatorObject)</code> | 
+| value |  | 
 
 <a name="module_src/validators"></a>
 
