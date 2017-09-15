@@ -1,6 +1,6 @@
 {
   "name": "superhero-validator",
-  "version": "1.5.1",
+  "version": "2.0.0",
   "description": "Package for validation your params",
   "keywords": [
     "validation",
