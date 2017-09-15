@@ -40,6 +40,7 @@
         * [.object(propertyList)](#module_src/validators.object) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
         * [.string([min], [max])](#module_src/validators.string) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
         * [.number([min], [max])](#module_src/validators.number) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+        * [.boolean()](#module_src/validators.boolean) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
         * [.email()](#module_src/validators.email) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
         * [.empty()](#module_src/validators.empty) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
         * [.oneOf(validators)](#module_src/validators.oneOf) ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
@@ -123,6 +124,22 @@ let validator = validation({
 validator({
      age: 18
 }); // {success: false}
+```
+<a name="module_src/validators.boolean"></a>
+
+### src/validators.boolean() ⇒ <code>[ValidatorObject](#ValidatorObject)</code>
+validator of boolean type
+
+**Kind**: static method of <code>[src/validators](#module_src/validators)</code>  
+**Example**  
+```js
+let validator = validation({
+     isSelected: validator.boolean()
+});
+
+validator({
+     isSelected: true
+}); // {success: true}
 ```
 <a name="module_src/validators.email"></a>
 
