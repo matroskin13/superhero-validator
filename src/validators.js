@@ -134,6 +134,27 @@ export function number(min, max) {
 }
 
 /**
+ * validator of boolean type
+ * @returns {ValidatorObject}
+ *
+ * @example
+ * let validator = validation({
+ *      isSelected: validator.boolean()
+ * });
+ *
+ * validator({
+ *      isSelected: true
+ * }); // {success: true}
+ */
+export function boolean() {
+    return getValidator('boolean', param => {
+        return typeof param.value === 'boolean'
+            ? getValidationSuccess()
+            : getValidationError(errors.PARAM_IS_NOT_BOOLEAN, `param ${param.key} is not a boolean`, param.key);
+    });
+}
+
+/**
  * validator of email
  * @returns {ValidatorObject}
  *
