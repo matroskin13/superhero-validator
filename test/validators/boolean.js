@@ -16,7 +16,6 @@ test('returns validator object', t => {
     t.is(typeof validator.handler, 'function');
 });
 
-
 test('validates correctly', t => {
     t.is(validationBoolean(true).success, true);
     t.is(validationBoolean(false).success, true);
