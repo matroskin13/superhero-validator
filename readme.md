@@ -43,4 +43,10 @@ console.log(result.success); // true
 
 ```
 
+```js
+import {use, validators} from 'superhero-validator';
+
+let result = use(validators.email(), 'test@gmail.com'); // true
+```
+
 more validators in [api page](api.md)

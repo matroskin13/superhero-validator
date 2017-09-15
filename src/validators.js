@@ -79,7 +79,12 @@ export function object(propertyList) {
  */
 export function string(min, max) {
     return getValidator('string', param => {
-        let value = String(param.value);
+        const value = param.value;
+        const isString = value === String(value);
+
+        if (!isString) {
+            return getValidationError(errors.PARAM_IS_NOT_STRING, 'param is not a string', param.key);            
+        }
 
         if (max && value.length > max) {
             return getValidationError(errors.PARAM_IS_ABOVE, `param length is above than ${max}`, param.key);
@@ -125,6 +130,27 @@ export function number(min, max) {
         }
 
         return getValidationSuccess();
+    });
+}
+
+/**
+ * validator of boolean type
+ * @returns {ValidatorObject}
+ *
+ * @example
+ * let validator = validation({
+ *      isSelected: validator.boolean()
+ * });
+ *
+ * validator({
+ *      isSelected: true
+ * }); // {success: true}
+ */
+export function boolean() {
+    return getValidator('boolean', param => {
+        return typeof param.value === 'boolean'
+            ? getValidationSuccess()
+            : getValidationError(errors.PARAM_IS_NOT_BOOLEAN, `param ${param.key} is not a boolean`, param.key);
     });
 }
 
